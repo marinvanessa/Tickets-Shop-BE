@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.UUID;
 
@@ -28,9 +29,11 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "event_id")
     @JsonBackReference
+    @ToString.Exclude
     private Event event;
 
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
+
 }

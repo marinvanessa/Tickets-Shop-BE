@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +22,26 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("createTickets")
     public ResponseEntity<String> addTicketsToEvent(@RequestParam UUID eventId, @RequestBody List<TicketDto> tickets) {
         ticketService.addTicketsToEvent(tickets, eventId);
         return new ResponseEntity<>("Tickets added.", HttpStatus.CREATED);
+    }
+
+
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping("addTicketToCart")
+    public ResponseEntity<String> addTicketToCart(@RequestParam UUID userId,@RequestParam UUID ticketId) {
+        ticketService.addTicketToCart(userId, ticketId);
+        return new ResponseEntity<>("Ticket added.", HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @DeleteMapping("deleteTicketFromCart")
+    public ResponseEntity<String> deleteTicketFromCart(@RequestParam UUID userId,@RequestParam UUID ticketId) {
+        ticketService.deleteTicketFromCart(userId, ticketId);
+        return new ResponseEntity<>("Ticket deleted.", HttpStatus.OK);
     }
 
     @GetMapping("/getTicket")
