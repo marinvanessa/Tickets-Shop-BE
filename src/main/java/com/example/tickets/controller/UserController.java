@@ -1,6 +1,6 @@
 package com.example.tickets.controller;
 
-import com.example.tickets.service.UserService;
+import com.example.tickets.service.impl.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

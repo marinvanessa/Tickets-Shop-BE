@@ -2,6 +2,7 @@ package com.example.tickets.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,6 @@ public class Ticket {
     @JoinColumn(name = "event_id")
     @JsonBackReference
     private Event event;
-
-    private Integer quantityAvailable;
 
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id")

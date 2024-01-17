@@ -1,4 +1,4 @@
-package com.example.tickets.service;
+package com.example.tickets.service.impl;
 
 import com.example.tickets.model.Event;
 import com.example.tickets.model.Ticket;

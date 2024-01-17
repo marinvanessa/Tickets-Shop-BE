@@ -1,5 +1,6 @@
-package com.example.tickets.service;
+package com.example.tickets.service.impl;
 
+import com.example.tickets.service.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,7 +22,7 @@ public class JWTServiceImpl implements JWTService {
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder().setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 12000))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 4))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -58,8 +59,6 @@ public class JWTServiceImpl implements JWTService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        System.out.println(isTokenExpired(token));
-        System.out.println(username.equals(userDetails.getUsername()));
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 

@@ -1,5 +1,7 @@
-package com.example.tickets.service;
+package com.example.tickets.service.impl;
 
+import com.example.tickets.dto.EventDto;
+import com.example.tickets.dto.TicketDto;
 import com.example.tickets.model.Event;
 import com.example.tickets.model.Location;
 import com.example.tickets.model.Ticket;
@@ -26,26 +28,34 @@ public class EventService {
 
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    private TicketRepository ticketRepository;
 
-    public Event addEvent(Event event) {
-        Location location = event.getLocation();
+    public Event addEvent(EventDto eventDto) {
+        Event event = new Event();
+        event.setEventId(eventDto.getEventId());
+        event.setName(eventDto.getName());
+        event.setDate(eventDto.getLocalDate());
+        event.setDescription(eventDto.getDescription());
 
-        Optional<Location> existingLocation = locationRepository.findById(location.getLocationId());
+        locationRepository.findById(eventDto.getLocationId()).ifPresent(event::setLocation);
 
-        if (existingLocation.isEmpty()) {
-            locationRepository.save(location);
-        }
+        List<TicketDto> ticketDtoList = eventDto.getTicketDTOList();
+        List<Ticket> ticketList = ticketDtoList.stream()
+                .map(ticketDto -> {
+                    Ticket ticket = new Ticket();
+                    ticket.setTicketId(ticketDto.getTicketId());
+                    ticket.setTicketNumber(ticketDto.getTicketNumber());
+                    ticket.setPrice(ticketDto.getPrice());
+                    ticket.setIsAvailable(ticketDto.getIsAvailable());
+                    ticket.setEvent(event);
+                    return ticket;
+                })
+                .toList();
 
-        Event createdEvent = eventRepository.saveAndFlush(event);
+        event.setTicketList(ticketList);
 
-        createdEvent.setLocation(location);
-
-        List<Ticket> ticketList = createdEvent.getTicketList();
-        ticketList.forEach(ticket -> {
-            ticket.setEvent(createdEvent);
-        });
-
-        return eventRepository.save(createdEvent);
+        return eventRepository.save(event);
     }
 
     @Transactional

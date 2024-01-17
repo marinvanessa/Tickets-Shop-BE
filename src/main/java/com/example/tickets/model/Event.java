@@ -1,6 +1,7 @@
 package com.example.tickets.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class Event {
     private LocalDate date;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Ticket> ticketList;
 
     @ManyToOne

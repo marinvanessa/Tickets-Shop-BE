@@ -1,9 +1,7 @@
 package com.example.tickets.controller;
 
-import com.example.tickets.model.Event;
 import com.example.tickets.model.Ticket;
-import com.example.tickets.service.EventService;
-import com.example.tickets.service.TicketService;
+import com.example.tickets.service.impl.TicketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

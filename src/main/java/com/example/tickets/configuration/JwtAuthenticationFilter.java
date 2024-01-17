@@ -1,7 +1,7 @@
 package com.example.tickets.configuration;
 
 import com.example.tickets.service.JWTService;
-import com.example.tickets.service.UserService;
+import com.example.tickets.service.impl.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
