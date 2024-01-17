@@ -30,4 +30,8 @@ public class Ticket {
     private Event event;
 
     private Integer quantityAvailable;
+
+    @ManyToOne
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
 }

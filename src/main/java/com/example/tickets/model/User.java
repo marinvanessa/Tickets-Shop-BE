@@ -30,14 +30,13 @@ public class User implements UserDetails {
 
     private String email;
 
-//    private String username;
-
     private String password;
 
     private Role role;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Order> orders;
+    @OneToOne(mappedBy = "user")
+    private ShoppingCart shoppingCart;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
