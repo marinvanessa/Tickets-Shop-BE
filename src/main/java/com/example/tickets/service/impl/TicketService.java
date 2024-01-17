@@ -1,5 +1,6 @@
 package com.example.tickets.service.impl;
 
+import com.example.tickets.dto.TicketDto;
 import com.example.tickets.model.Event;
 import com.example.tickets.model.Ticket;
 import com.example.tickets.repository.EventRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -25,21 +27,21 @@ public class TicketService {
     @Autowired
     private EventRepository eventRepository;
 
-    public ResponseEntity<String> addTicketsToEvent(List<Ticket> ticketList, UUID eventId) {
+    public void addTicketsToEvent(List<TicketDto> ticketList, UUID eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
 
-        if (event == null) {
-            System.out.println("e null");
-        }
-
-        for (Ticket ticket : ticketList) {
+        List<Ticket> tickets = ticketList.stream().map(ticketDto -> {
+            Ticket ticket = new Ticket();
+            ticket.setTicketId(ticketDto.getTicketId());
+            ticket.setTicketNumber(ticketDto.getTicketNumber());
+            ticket.setPrice(ticketDto.getPrice());
+            ticket.setIsAvailable(ticketDto.getIsAvailable());
             ticket.setEvent(event);
-            event.getTicketList().add(ticket);
-        }
+            ticketRepository.save(ticket);
+            return ticket;
+        }).toList();
 
         eventRepository.save(event);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Bilete adăugate cu succes la eveniment");
     }
 
     public ResponseEntity<String> deleteTicket(UUID ticketId) {
@@ -47,15 +49,29 @@ public class TicketService {
         return ResponseEntity.status( HttpStatus.OK).body("Ticket deleted successfully!");
     }
 
-    public ResponseEntity<String> updateTicket(Ticket ticket, UUID ticketId) {
+    public void deleteAllTickets() {
+        ticketRepository.deleteAll();
+    }
+
+    public List<Ticket> getAllTickets() {
+        return ticketRepository.findAll();
+    }
+
+    public Ticket getTicket(UUID ticketId) {
+        return ticketRepository.findById(ticketId).get();
+    }
+
+
+    public Ticket updateTicket(TicketDto ticketDto, UUID ticketId) {
         Ticket existedTicket = ticketRepository.findById(ticketId).orElse(null);
 
         existedTicket.setEvent(existedTicket.getEvent());
-        existedTicket.setTicketNumber(ticket.getTicketNumber());
-        existedTicket.setPrice(ticket.getPrice());
+        existedTicket.setTicketNumber(ticketDto.getTicketNumber());
+        existedTicket.setPrice(ticketDto.getPrice());
+        existedTicket.setIsAvailable(ticketDto.getIsAvailable());
 
         ticketRepository.save(existedTicket);
-        return ResponseEntity.status( HttpStatus.OK).body("Ticket updated successfully!");
+        return existedTicket;
     }
 
     public List<Ticket> getTicketsByEventId(UUID eventId) {

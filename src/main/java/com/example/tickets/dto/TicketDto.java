@@ -9,6 +9,5 @@ public class TicketDto {
     private Long price;
     private Integer ticketNumber;
     private Boolean isAvailable;
-    private UUID eventId;
 
 }
