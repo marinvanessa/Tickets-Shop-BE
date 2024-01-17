@@ -5,7 +5,7 @@ import com.example.tickets.dto.RefreshTokenRequest;
 import com.example.tickets.dto.SignInRequest;
 import com.example.tickets.dto.SignUpRequest;
 import com.example.tickets.model.User;
-import com.example.tickets.repository.AuthenticationService;
+import com.example.tickets.service.impl.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

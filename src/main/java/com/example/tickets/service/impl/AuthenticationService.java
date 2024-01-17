@@ -1,11 +1,14 @@
-package com.example.tickets.repository;
+package com.example.tickets.service.impl;
 
 import com.example.tickets.dto.JwtAuthenticationResponse;
 import com.example.tickets.dto.RefreshTokenRequest;
 import com.example.tickets.dto.SignInRequest;
 import com.example.tickets.dto.SignUpRequest;
 import com.example.tickets.enums.Role;
+import com.example.tickets.model.ShoppingCart;
 import com.example.tickets.model.User;
+import com.example.tickets.repository.ShoppingCartRepository;
+import com.example.tickets.repository.UserRepository;
 import com.example.tickets.service.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +24,8 @@ import java.util.UUID;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+
+    private final ShoppingCartRepository shoppingCartRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -41,8 +46,16 @@ public class AuthenticationService {
         user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        return userRepository.save(user);
+        userRepository.save(user);
 
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setShoppingCartId(UUID.randomUUID());
+        shoppingCart.setUser(user);
+        shoppingCart.setTotalPrice(0L);
+        shoppingCartRepository.save(shoppingCart);
+
+        return user;
     }
 
     public JwtAuthenticationResponse signIn(SignInRequest sign) {
