@@ -4,6 +4,7 @@ import com.example.tickets.model.Event;
 import com.example.tickets.model.Ticket;
 import com.example.tickets.repository.EventRepository;
 import com.example.tickets.repository.TicketRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

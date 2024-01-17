@@ -3,7 +3,8 @@ package com.example.tickets.dto;
 import lombok.Data;
 
 @Data
-public class LoginDTO {
-    private String username;
+public class SignInRequest {
+
+    private String email;
     private String password;
 }

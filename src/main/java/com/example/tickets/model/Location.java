@@ -1,5 +1,6 @@
 package com.example.tickets.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class Location {
     private Boolean isOutdoor;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Event> eventList;
 
 }

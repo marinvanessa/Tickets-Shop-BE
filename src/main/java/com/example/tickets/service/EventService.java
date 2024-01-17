@@ -6,6 +6,7 @@ import com.example.tickets.model.Ticket;
 import com.example.tickets.repository.EventRepository;
 import com.example.tickets.repository.LocationRepository;
 import com.example.tickets.repository.TicketRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,8 +48,12 @@ public class EventService {
         return eventRepository.save(createdEvent);
     }
 
+    @Transactional
     public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+        log.info("Fetching all events");
+        List<Event> events = eventRepository.findAll();
+        log.info("Fetched {} events", events.size());
+        return events;
     }
 
     public void deleteEvent(UUID eventId) {

@@ -1,5 +1,6 @@
 package com.example.tickets.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "event_id")
-    @JsonIgnore
+    @JsonBackReference
     private Event event;
 
     private Integer quantityAvailable;
