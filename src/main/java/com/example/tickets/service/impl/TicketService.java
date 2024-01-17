@@ -83,6 +83,20 @@ public class TicketService {
 
     }
 
+    @Transactional
+    public void deleteAllTicketsFromCart(UUID userId) {
+        if (userRepository.findById(userId).isPresent()) {
+            ShoppingCart shoppingCart = shoppingCartRepository
+                    .findShoppingCartByUser(userRepository.findById(userId).get());
+            shoppingCart.getTickets().stream().forEach(ticket ->
+            {
+                ticket.setShoppingCart(null);
+                ticketRepository.save(ticket);
+            });
+        }
+
+    }
+
     public void deleteAllTickets() {
         ticketRepository.deleteAll();
     }

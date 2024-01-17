@@ -44,6 +44,13 @@ public class TicketController {
         return new ResponseEntity<>("Ticket deleted.", HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('USER')")
+    @DeleteMapping("deleteAllTicketsFromCart")
+    public ResponseEntity<String> deleteAllTicketsFromCart(@RequestParam UUID userId) {
+        ticketService.deleteAllTicketsFromCart(userId);
+        return new ResponseEntity<>("Tickets deleted.", HttpStatus.OK);
+    }
+
     @GetMapping("/getTicket")
     public ResponseEntity<Ticket> getTicket(@RequestParam UUID ticketId) {
         Ticket ticket = ticketService.getTicket(ticketId);
