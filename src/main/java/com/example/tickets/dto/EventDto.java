@@ -12,7 +12,7 @@ public class EventDto {
     private String name;
     private String description;
     private LocalDate localDate;
-    private List<TicketDto> ticketDTOList;
+    private List<TicketDto> ticketList;
     private UUID locationId;
 
 }

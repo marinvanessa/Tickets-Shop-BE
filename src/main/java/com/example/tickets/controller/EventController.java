@@ -34,14 +34,30 @@ public class EventController {
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteEvent/{eventId}")
+    @GetMapping("/getEvent")
+    public ResponseEntity<Event> getEvent(@RequestParam UUID eventId) {
+        Event event = eventService.getEvent(eventId);
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/deleteEvent")
     public ResponseEntity<String> deleteEvent(@RequestParam UUID eventId) {
         eventService.deleteEvent(eventId);
         return new ResponseEntity<>("Event deleted successfully!", HttpStatus.OK);
     }
 
-    @PutMapping("/updateEvent/{eventId}")
-    public ResponseEntity<String> updateEvent(@RequestBody Event event, @RequestParam UUID eventId) {
-        return eventService.updateEvent(event, eventId);
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/deleteAllEvents")
+    public ResponseEntity<String> deleteAllEvents() {
+        eventService.deleteAllEvents();
+        return new ResponseEntity<>("All events deleted successfully!", HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/updateEvent")
+    public ResponseEntity<Event> updateEvent(@RequestBody EventDto eventDto, @RequestParam UUID eventId) {
+        Event event =  eventService.updateEvent(eventDto, eventId);
+        return new ResponseEntity<>(event, HttpStatus.OK);
     }
 }

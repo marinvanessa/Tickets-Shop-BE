@@ -10,6 +10,5 @@ public class TicketDto {
     private Integer ticketNumber;
     private Boolean isAvailable;
     private UUID eventId;
-    private UUID shoppingCartId;
 
 }

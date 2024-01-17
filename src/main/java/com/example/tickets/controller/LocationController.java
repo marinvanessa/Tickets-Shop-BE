@@ -56,7 +56,7 @@ public class LocationController {
     @GetMapping("/getAllLocations")
     public ResponseEntity<List<Location>> getAllLocations() {
         List<Location> locationList = locationService.getAllLocations();
-        return ResponseEntity.ok(locationList);
+        return new ResponseEntity<>(locationList, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -65,6 +65,5 @@ public class LocationController {
         locationService.deleteAllLocations();
         return ResponseEntity.ok("All locations deleted successfully");
     }
-
 
 }
