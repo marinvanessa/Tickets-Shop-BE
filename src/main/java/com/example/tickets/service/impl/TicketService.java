@@ -60,6 +60,7 @@ public class TicketService {
 
     @Transactional
     public void addTicketToCart(UUID userId, UUID ticketId) {
+        System.out.println("Start Adding the Ticket to the Cart.");
         if (userRepository.findById(userId).isPresent() && ticketRepository.findById(ticketId).isPresent()) {
             ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByUser(userRepository.findById(userId).get());
             Ticket ticket = ticketRepository.findById(ticketId).get();
@@ -124,7 +125,6 @@ public class TicketService {
 
     public List<Ticket> getTicketsByEventId(UUID eventId) {
         Event event = eventRepository.findById(eventId).orElse(null);
-
         return event.getTicketList();
     }
 }

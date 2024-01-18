@@ -34,4 +34,15 @@ public class Event {
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "eventId=" + eventId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", locationId=" + (location != null ? location.getLocationId() : null) +
+                '}';
+    }
+
 }

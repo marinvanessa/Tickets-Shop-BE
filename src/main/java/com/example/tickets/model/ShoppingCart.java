@@ -27,5 +27,6 @@ public class ShoppingCart {
     private User user;
 
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Ticket> tickets = new ArrayList<>();
 }

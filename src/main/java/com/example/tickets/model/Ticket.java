@@ -30,10 +30,13 @@ public class Ticket {
     @JoinColumn(name = "event_id")
     @JsonBackReference
     @ToString.Exclude
+    @JsonIgnore
     private Event event;
 
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id")
+    @ToString.Exclude
+    @JsonIgnore
     private ShoppingCart shoppingCart;
 
 }
